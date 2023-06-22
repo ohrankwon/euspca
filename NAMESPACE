@@ -1,0 +1,5 @@
+import("methods")
+
+export(euspca, euspca_sig, euspca_dat, print.euspca)
+
+S3method("print", "euspca")

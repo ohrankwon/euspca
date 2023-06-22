@@ -1,0 +1,11 @@
+Package: euspca
+Type: Package
+Title: Exactly Uncorrelated Sparse Principal Analysis (EUSPCA) with l1 norm
+Version: 1.0.0
+Date: 2023-06-22
+Author: Oh-Ran Kwon <kwon0085@umn.edu>, Hui Zou <hzou@stat.umn.edu>
+Maintainer: Oh-Ran Kwon <kwon0085@umn.edu>
+Description: This package provides the implementation of exactly uncorrelated sparse principal analysis (EUSPCA) with l1 norm using a combination of augmented Lagrangian and non-monotone proximal gradient methods.
+Depends: R (>= 3.5.0), methods
+License: GPL-2
+NeedsCompilation: yes
