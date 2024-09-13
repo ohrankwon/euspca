@@ -1,0 +1,94 @@
+---
+title: "Tutorial on the euspca R package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE
+)
+```
+
+## EUSPCA: Exactly uncorrelated sparse principal component analysis
+
+The R package `euspca` finds $k$ number of uncorrelated sparse principal components. The main function, `euspca`, finds the unnormalized loading matrix $\mathbf V \in \mathbb R^{k \times p}$ by minimizing the following formula:
+$$
+  - \mbox{tr} (\mathbf V \mathbf
+        \Sigma_n^2 \mathbf V^T ) + \lambda \textstyle\sum_{ij} | v_{ij} | 
+        ~~\mbox{subject to} ~  \mathbf V \mathbf \Sigma_n \mathbf V^T = \mathbf{I},
+$$
+where:
+
+* $\Sigma_n \in \mathbb R^{p\times p}$ is the empirical covariance or correlation matrix of the original $p$ variables,
+
+* $v_{ij}$ is the (i,j)-th component of $\mathbf V$, and 
+
+* $\lambda$ is a user-specified value that controls the sparsity of $\mathbf V$.
+
+
+In this tutorial, we will use the `euspca` package  to find uncorrelated sparse principal components for the `syn` dataset.  
+
+## Installation
+
+To get started, load the `euspca` package into your R session:
+```{r, message=FALSE, warning=FALSE}
+library(euspca)
+```
+
+## Synthetic data
+
+We will use the `syn` dataset, which contains the covariance matrix for 9 variables: 
+
+* $\xi_i = \eta_1 + \epsilon_i, ~ i=1,2,3,$
+
+* $\xi_i = \eta_2 + \epsilon_i, ~ i=4,5,6,$ 
+
+* $\xi_i = \eta_3 + \epsilon_i, ~ i=7,8,9,$ and
+
+* $\epsilon_i, ~ i=1,\ldots,9$ are independent and each follows $N(0,1)$, 
+
+where:
+
+* $\eta_i, ~ i=1,2,3$, are three hidden factors, where:
+  * $\eta_1 \sim N(0,290)$,
+  * $\eta_2 \sim N(0,300)$, and 
+  * $\eta_3 =  0.3 \eta_1 + 0.98 \eta_2 + \epsilon$, where $\epsilon \sim N(0,1)$ is independent of $\eta_1$ and $\eta_2$.
+
+To see what this matrix looks like, use the following code:
+```{r, hold=TRUE}
+data(syn) # load data
+print(syn)
+```
+
+## What to expect from the analysis
+
+Ideally, we want each principal component to capture the underlying independent factors, $\eta_1$ and $\eta_2$, respectively. The information about $\eta_1$ and $\eta_2$ is solely contained in the groups $(\xi_1,\xi_2,\xi_3)$ and $(\xi_4,\xi_5,\xi_6)$, respectively. Additionally, the variables within each group, $(\xi_1,\xi_2,\xi_3)$ and $(\xi_4,\xi_5,\xi_6)$, are essentially the same, so they should be combined together with equal weights to capture each factor.
+
+This suggests two sparse linear combinations of the original variables as ideal principal components: one using the variables $(\xi_1,\xi_2,\xi_3)$ with equal weights to capture the factor $\eta_1$ and the other using the variable $(\xi_4,\xi_5,\xi_6)$ with equal weights to capture the factor $\eta_2$.
+
+
+## Analysis
+We apply `euspca` to the `syn` dataset using the following code:
+```{r, hold=TRUE}
+euspca_syn = euspca(syn, is.data.mat=FALSE, k=2, lamb=1000, scale=FALSE, track=NULL) 
+```
+
+The resulting normalized loadings, normalized to have a unit length for each row, are:
+```{r, hold=TRUE}
+round(euspca_syn$loadings,3)
+```
+The first row is the loading vector for the first sparse principal component, and the second row is for the second. We see that some entries are 0 due to the sparsity constraint, which encourages simpler and more interpretable components.  Moreover, we see that the loading vectors align with our expectations from the analysis.
+
+To see a summary of the derived principal components, use:
+```{r, hold=TRUE}
+print(euspca_syn)
+```
+
+We can see that 66\% of the total variance in the data is explained by these components, and they are uncorrelated, with a correlation of 0.

@@ -30,13 +30,6 @@ An ``euspca" object is returned. The below are some quantities which the user ma
   \item{pc.cor}{The correlation matrix of uncorrelated sparse components.}
 }
 
-\author{Oh-ran Kwon and Hui Zou\cr
-Maintainer: Oh-ran Kwon  \email{kwon0085@umn.edu}}
-\references{
-Kwon, O., Lu, Z., and Zou, H. (2023+), 
-``Exactly Uncorrelated Sparse Principal Component Analysis," \cr
-}
-
 \seealso{\code{\link{euspca_sig}}, \code{\link{euspca_dat}}, and \code{\link{print.euspca}}.}
 
 \examples{

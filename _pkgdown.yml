@@ -1,0 +1,46 @@
+url: https://ohrankwon.github.io/euspca/
+template:
+  bootstrap: 5
+  bootswatch: cosmo
+
+navbar:
+  structure:
+    left:
+    - Tutorial
+    - reference
+    right: github
+  components:
+    Tutorial:
+      text: Tutorial
+      href: articles/tutorial.html
+    reference:
+      text: Reference
+      href: reference/index.html
+      
+repo:
+  url:
+    home: https://github.com/ohrankwon/euspca/
+    source: https://github.com/ohrankwon/euspca/
+    
+authors:
+  Oh-Ran Kwon:
+    href: http://ohrankwon.com/
+    
+reference:
+- title: Primary functions
+  desc: >
+  contents:
+    - euspca
+    - print.euspca
+
+- title: Sub functions
+  desc: >
+  contents:
+    - euspca_dat
+    - euspca_sig
+    
+- title: Datasets
+  desc: >
+  contents:
+    - syn
+
