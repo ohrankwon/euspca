@@ -8,6 +8,6 @@ Oh-Ran Kwon, Zhaosong Lu, and Hui Zou (2024) **Exactly Uncorrelated Sparse Princ
 Open an `R` prompt. Then, type the following commands:
 ```
 library(devtools)
-devtools::install_github("ohrankwon/euspca")
+install_github("ohrankwon/euspca")
 library(euspca)
 ```
